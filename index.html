@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Candidati agli Oscar 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+        }
+        .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .movie-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            width: 200px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .movie-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .movie-card p {
+            font-size: 14px;
+            color: #666;
+        }
+        .movie-card img {
+            width: 100%;
+            height: auto;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Film Candidati agli Oscar 2024</h1>
+    </header>
+
+    <section>
+        <h2>Lista dei Film Candidati</h2>
+        <div id="movie-list" class="movie-list"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Film agli Oscar</p>
+    </footer>
+
+    <script>
+        // Funzione per caricare i film dal backend
+        async function fetchMovies() {
+            const response = await fetch('/api/movies');
+            const movies = await response.json();
+            
+            const movieListDiv = document.getElementById('movie-list');
+            movieListDiv.innerHTML = '';  // Pulisce la lista prima di aggiungere nuovi film
+
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}">
+                    <h3>${movie.title}</h3>
+                    <p><strong>Regista:</strong> ${movie.director}</p>
+                    <p><strong>Anno:</strong> ${movie.year}</p>
+                `;
+                
+                movieListDiv.appendChild(movieCard);
+            });
+        }
+
+        // Carica i film al caricamento della pagina
+        window.onload = fetchMovies;
+    </script>
+
+</body>
+</html>
